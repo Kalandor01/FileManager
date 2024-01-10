@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <Version>2.0</Version>
+    <Authors>Kalandor01</Authors>
+    <Description>File encoding tools.</Description>
+    <Copyright>MIT</Copyright>
+    <PackageProjectUrl>https://github.com/Kalandor01/FileManager</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Kalandor01/FileManager</RepositoryUrl>
+    <PackageTags>console</PackageTags>
+    <PackageReleaseNotes>Bugfixes</PackageReleaseNotes>
+    <PackageOutputPath></PackageOutputPath>
+    <NeutralLanguage>en-001</NeutralLanguage>
+    <Title>File manager</Title>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NPrng" Version="1.0.0.2" />
+  </ItemGroup>
+
+</Project>
