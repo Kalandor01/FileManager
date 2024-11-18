@@ -30,7 +30,7 @@ namespace FileManager
             var regexStr = new StringBuilder("^");
             var fileCount = 0;
             var namingPatternSearch = false;
-            if (fileName is not null && fileName.IndexOf(Utils.FILE_NAME_SEED_REPLACE_STRING) != -1)
+            if (fileName is not null && fileName.Contains(Utils.FILE_NAME_SEED_REPLACE_STRING))
             {
                 namingPatternSearch = true;
                 var saveNameSplit = $"{fileName}.{fileExt}".Split(Utils.FILE_NAME_SEED_REPLACE_STRING);

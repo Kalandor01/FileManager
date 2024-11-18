@@ -17,7 +17,7 @@ namespace FileManager
 
         #region Public functions
         /// <param name="fileLine">The line that will be in the file.</param>
-        /// <inheritdoc cref="EncodeFile(IEnumerable{string}, long, string, string, int, Encoding)"/>
+        /// <inheritdoc cref="EncodeFile(IEnumerable{string}, long, string, string, int, Encoding?, bool)"/>
         public static void EncodeFile(
             string fileLine,
             long seed = 1,
@@ -28,7 +28,7 @@ namespace FileManager
             bool zip = true
         )
         {
-            EncodeFile(new List<string> { fileLine }, seed, filePath, fileExt, version, encoding, zip);
+            EncodeFile([fileLine], seed, filePath, fileExt, version, encoding, zip);
         }
 
         /// <summary>
@@ -149,7 +149,7 @@ namespace FileManager
                 if (by == 10)
                 {
                     byteLines.Add(newL);
-                    newL = new List<byte>();
+                    newL = [];
                 }
             }
 
@@ -248,7 +248,7 @@ namespace FileManager
         /// <param name="encoding">The encoding that the text is in.</param>
         /// <param name="zip">Whether to zip the line before encoding.</param>
         /// <returns>The list of encoded bytes.</returns>
-        private static IEnumerable<byte> EncodeLine(
+        private static List<byte> EncodeLine(
             string text,
             AbstractPseudoRandomGenerator rand,
             Encoding encoding,
@@ -343,7 +343,7 @@ namespace FileManager
         /// Generates a random number generator from another number.
         /// </summary>
         /// <param name="seed">The number to use to generate the random number generator.</param>
-        private static AbstractPseudoRandomGenerator MakeRandom(BigInteger seed)
+        private static SplittableRandom MakeRandom(BigInteger seed)
         {
             return new SplittableRandom((ulong)(BigInteger.Abs(seed) % MaxModuloValue));
         }

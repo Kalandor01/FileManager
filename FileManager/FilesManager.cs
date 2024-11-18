@@ -102,7 +102,7 @@
             return (FileManagerOptions.DELETE_FILE, option);
         }
 
-        /// <summary>
+        /*/// <summary>
         /// Allows the user to pick between creating a new save, loading an old save and deleteing a save, with UI selection.<br/>
         /// Reads in a file data dictionary, where the first element is the file number/seed, and the second is the text to display for that file.<br/>
         /// Returns a tuple depending on what the user selected, containig what happenend, and in whitch slot (except exit).<br/>
@@ -115,7 +115,7 @@
         /// <param name="canExit">If the user can exit from this menu with he key assigned to the escape action.</param>
         /// <param name="keybinds">The list of <c>KeyAction</c> objects to use.</param>
         /// <param name="keyResults">The list of posible results returned by pressing a key.</param>
-        /// <returns></returns>
+        /// <returns></returns>*/
         //public static (FileManagerOptions ManagerOption, int slotNumber) ManageFilesUI(
         //    Dictionary<int, string> filesDataProcessed,
         //    int maxFiles = -1,
@@ -223,7 +223,7 @@
         //    }
         //}
 
-        /// <summary>
+        /*/// <summary>
         /// Allows the user to pick between creating a new save, loading an old save and deleteing a save, with UI selection.<br/>
         /// The <c>newFileFunction</c> and the <c>loadFileFunction</c> delegates run, when the user creates or loads a save file, and both WILL get the file number, that was refrenced as their first argument.<br/>
         /// The <c>GetDataFunction</c> MUST return an IDictionary where the key is the number/seed of the file, and the value is the text to display for that file.
@@ -236,7 +236,7 @@
         /// <param name="fileExt">The extension of the files.</param>
         /// <param name="canExit">If the user can exit from this menu with he key assigned to the escape action.</param>
         /// <param name="keybinds">The list of <c>KeyAction</c> objects to use.</param>
-        /// <param name="keyResults">The list of posible results returned by pressing a key.</param>
+        /// <param name="keyResults">The list of posible results returned by pressing a key.</param>*/
         //public static void ManageFilesUIAdvanced(
         //    (Delegate function, object?[]? args) newFileFunction,
         //    (Delegate function, object?[]? args) loadFileFunction,
@@ -312,10 +312,10 @@
             }
         }
 
-        /// <summary>
+        /*/// <summary>
         /// Method invoked when the user clicks on the load/delete button.
         /// </summary>
-        /// <inheritdoc cref="ManageFilesUIAdvanced"/>
+        /// <inheritdoc cref="ManageFilesUIAdvanced"/>*/
         //private static void LoadOrDeleteMenu(
         //    (Delegate function, object?[]? args) getDataFunction,
         //    (Delegate function, object?[]? args) newFileFunction,
@@ -394,7 +394,7 @@
             {
                 functionArgs.AddRange(action.args);
             }
-            action.function.DynamicInvoke(functionArgs.ToArray());
+            action.function.DynamicInvoke([.. functionArgs]);
         }
         #endregion
 
@@ -409,10 +409,10 @@
             int maxFiles
         );
 
-        /// <summary>
+        /*/// <summary>
         /// Helper delegate for when the user clicks the new load/delete.
         /// </summary>
-        /// <inheritdoc cref="ManageFilesUIAdvanced"/>
+        /// <inheritdoc cref="ManageFilesUIAdvanced"/>*/
         //private delegate void LoadDeleteFunctionDelegate(
         //    (Delegate function, object?[]? args) getDataFunction,
         //    (Delegate function, object?[]? args) newFileFunction,
