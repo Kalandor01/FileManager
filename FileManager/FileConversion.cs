@@ -1,5 +1,6 @@
 ﻿using NPrng;
 using NPrng.Generators;
+using System.Globalization;
 using System.IO.Compression;
 using System.Numerics;
 using System.Text;
@@ -56,6 +57,12 @@ namespace FileManager
             bool zip = true
         )
         {
+            static string NowTimeToNumberString()
+            {
+                var dateTimeStr = DateTime.Now.ToString(CultureInfo.InvariantCulture);
+                return dateTimeStr.Replace("/", "").Replace(" ", "").Replace(":", "");
+            }
+            
             encoding ??= Encoding.UTF8;
             var r = MakeRandom(MakeSeed(seed));
 
@@ -83,10 +90,10 @@ namespace FileManager
             // v2
             if (version == 2)
             {
-                seedNum = BigInteger.Parse(DateTime.Now.ToString().Replace(" ", "").Replace("-", "").Replace(".", "").Replace(":", "")) / MakeSeed(seed, 17, 0.587);
+                seedNum = BigInteger.Parse(NowTimeToNumberString()) / MakeSeed(seed, 17, 0.587);
             }
             // v3-4
-            else if (version == 3 || version == 4)
+            else if (version is 3 or 4)
             {
                 var path = AppContext.BaseDirectory + $"{filePath.Replace(Utils.FILE_NAME_SEED_REPLACE_STRING, seed.ToString())}.{fileExt}";
                 var pathBytes = Encoding.UTF8.GetBytes(path);
@@ -96,7 +103,7 @@ namespace FileManager
                     pathNum *= by;
                     pathNum = int.Parse(pathNum.ToString().Replace("0", ""));
                 }
-                var nowNum = decimal.Parse(DateTime.Now.ToString().Replace(" ", "").Replace("-", "").Replace(".", "").Replace(":", "")) / (decimal)MakeSeed(seed, 2, 0.587);
+                var nowNum = decimal.Parse(NowTimeToNumberString()) / (decimal)MakeSeed(seed, 2, 0.587);
                 seedNum = new BigInteger(decimal.Parse((pathNum * nowNum).ToString().Replace("0", "").Replace("E+", "")) * 15439813);
             }
             else
@@ -141,6 +148,11 @@ namespace FileManager
             //get lines
             var fileBytes = File.ReadAllBytes($"{filePath.Replace(Utils.FILE_NAME_SEED_REPLACE_STRING, seed.ToString())}.{fileExt}");
 
+            if (fileBytes.Length == 0)
+            {
+                throw new FormatException("The file is empty.");
+            }
+
             var byteLines = new List<List<byte>>();
             var newL = new List<byte>();
             foreach (var by in fileBytes)
@@ -169,30 +181,32 @@ namespace FileManager
                 catch { }
             }
             // decode
-            if (version != -1)
+            if (version == -1)
             {
-                var linesDecoded = new List<string>();
-                if (version == 4)
-                {
-                    var now = DateTime.Now;
-                    seedNum *= now.Year + now.Month + now.Day;
-                }
-                else if (version < 2 || version > 4)
-                {
-                    seedNum = MakeSeed(seed);
-                }
-                var mainRandom = MakeRandom(seedNum);
-                for (var x = isZippedLineExists ? 3 : 2; x < byteLines.Count; x++)
-                {
-                    if (decodeUntil > -1 && x >= decodeUntil + 2)
-                    {
-                        break;
-                    }
-                    linesDecoded.Add(DecodeLine(byteLines.ElementAt(x), mainRandom, encoding, isZipped));
-                }
-                return linesDecoded;
+                throw new FormatException("The seed of the file cannot be decoded.");
             }
-            throw new FormatException("The seed of the file cannot be decoded.");
+
+            var linesDecoded = new List<string>();
+            if (version == 4)
+            {
+                var now = DateTime.Now;
+                seedNum *= now.Year + now.Month + now.Day;
+            }
+            else if (version is < 2 or > 4)
+            {
+                seedNum = MakeSeed(seed);
+            }
+            var mainRandom = MakeRandom(seedNum);
+            var infoLineNum = isZippedLineExists ? 3 : 2;
+            for (var x = infoLineNum; x < byteLines.Count; x++)
+            {
+                if (decodeUntil > -1 && x >= decodeUntil + infoLineNum)
+                {
+                    break;
+                }
+                linesDecoded.Add(DecodeLine(byteLines.ElementAt(x), mainRandom, encoding, isZipped));
+            }
+            return linesDecoded;
         }
         #endregion
 
