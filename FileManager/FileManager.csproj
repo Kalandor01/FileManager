@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <Version>2.1.4</Version>
+    <Version>2.1.5</Version>
     <Authors>Kalandor01</Authors>
     <Description>File encoding tools.</Description>
     <Copyright>MIT</Copyright>

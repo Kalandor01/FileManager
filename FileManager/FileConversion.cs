@@ -167,7 +167,7 @@ namespace FileManager
 
             // get version
             var r = MakeRandom(MakeSeed(seed));
-            var version = int.Parse(DecodeLine(byteLines.ElementAt(0), r, encoding));
+            var version = int.Parse(DecodeLine(byteLines.ElementAt(0), r, encoding, tooLongReturn: "-1"));
             var seedNum = BigInteger.Parse(DecodeLine(byteLines.ElementAt(1), r, encoding));
             var isZippedLineExists = false;
             var isZipped = false;
@@ -175,10 +175,14 @@ namespace FileManager
             {
                 try
                 {
-                    isZipped = int.Parse(DecodeLine(byteLines.ElementAt(2), r, encoding)) == 1;
-                    isZippedLineExists = true;
+                    var isZippedLine = DecodeLine(byteLines.ElementAt(2), r, encoding, tooLongReturn: "-1");
+                    isZipped = int.Parse(isZippedLine) == 1;
+                    isZippedLineExists = isZippedLine != "-1";
                 }
-                catch { }
+                catch (Exception)
+                {
+
+                }
             }
             // decode
             if (version == -1)
@@ -303,12 +307,14 @@ namespace FileManager
         /// <param name="rand">A random number generator from NPrng.</param>
         /// <param name="encoding">The encoding that the text is in.</param>
         /// <param name="unzip">Whether to unzip the line before encoding.</param>
+        /// <param name="tooLongReturn">If not null and the encoded version of the line is longer than 100 characters, it retuns this instead.</param>
         /// <returns>The decoded text.</returns>
         private static string DecodeLine(
             IEnumerable<byte> bytes,
             AbstractPseudoRandomGenerator rand,
             Encoding encoding,
-            bool unzip = false
+            bool unzip = false,
+            string? tooLongReturn = null
         )
         {
             var encode64 = rand.GenerateInRange(2, 5);
@@ -326,6 +332,10 @@ namespace FileManager
             var lineUtf8 = lineDecoded.ToArray();
             for (int x = 0; x < encode64; x++)
             {
+                if (tooLongReturn is not null && lineUtf8.Length > 100)
+                {
+                    return tooLongReturn;
+                }
                 var e1 = lineUtf8.ToArray();
                 var e2 = Encoding.UTF8.GetString(e1);
                 lineUtf8 = Convert.FromBase64String(e2);
