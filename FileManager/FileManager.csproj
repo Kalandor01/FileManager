@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <Version>2.1.5</Version>
+    <Version>2.1.6</Version>
     <Authors>Kalandor01</Authors>
     <Description>File encoding tools.</Description>
     <Copyright>MIT</Copyright>
@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="NPrng" Version="1.0.0.3" />
+    <PackageReference Include="NPrng" Version="1.0.0.4" />
   </ItemGroup>
 
 </Project>
