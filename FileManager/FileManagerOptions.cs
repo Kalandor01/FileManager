@@ -1,4 +1,4 @@
-﻿namespace FileManager
+namespace FileManager
 {
     /// <summary>
     /// Posible responses from file managers in <c>FileManager</c>.

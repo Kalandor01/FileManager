@@ -1,4 +1,4 @@
-﻿namespace FileManager
+namespace FileManager
 {
     /// <summary>
     /// This exeption is raised if a delegate's return type is not what is should be.

@@ -1,4 +1,4 @@
-﻿namespace FileManager
+namespace FileManager
 {
     /// <summary>
     /// This exeption is raised if "fileName" and "seed" are both null or "fileName" doesn't contain the special character ("*") in <c>ReadFiles</c>.

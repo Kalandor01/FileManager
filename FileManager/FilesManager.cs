@@ -1,4 +1,4 @@
-﻿namespace FileManager
+namespace FileManager
 {
     /// <summary>
     /// Contains functions for managing (creating, loading, deleting) files.<br/>
